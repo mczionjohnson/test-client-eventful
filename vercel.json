@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/proxy/:match*",
-      "destination": "https://test-server-eventful.onrender.com/:match*"
+      "destination": "https://eventful-server.hostless.app/:match*"
     },
     {
       "source": "/(.*)",
