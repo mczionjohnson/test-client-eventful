@@ -398,6 +398,25 @@ function CreatorModeViewMore() {
                   />
                 </div>
               </div>
+
+              <div className="mb-3 row">
+                <label
+                  htmlFor="staticEmail"
+                  className="col-sm-2 col-form-label"
+                >
+                  RSVP:
+                </label>
+                <div className="formInput col-sm-10">
+                  <Form.Control
+                    placeholder="RSVP"
+                    name="rsvp"
+                    // check for data in updatedPost or return null
+                    value={updatedEvent.rsvp ? updatedEvent.rsvp : ""}
+                    // function to pre fill the input field
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
             </Form.Group>
           </Form>
         </Modal.Body>
