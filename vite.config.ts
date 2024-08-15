@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/proxy": {
-        target: "https://test-server-eventful-1.onrender.com/",
+        target: "https://eventful-server.hostless.app/",
         changeOrigin: true,
         secure: false,
         agent: new http.Agent(),
