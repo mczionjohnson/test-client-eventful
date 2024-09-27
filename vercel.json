@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/proxy/:match*",
-      "destination": "https://eventful-server.hostless.app/:match*"
+      "destination": "https://pen.hostless.app/:match*"
     },
     {
       "source": "/(.*)",

@@ -45,14 +45,13 @@ function Login() {
     await axios
       .post("proxy/api/v1/login", post)
       .then((res) => {
-        console.log(res.status), navigate("/events");
+        console.log(res.status), navigate("/blogs");
       })
       .catch((err) => {
         console.error("Error fetching event:", err);
         setError(err.message);
       });
 
-    navigate("/events");
   };
 
   if (error) {

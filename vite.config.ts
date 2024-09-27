@@ -14,10 +14,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/proxy": {
-        target: "https://eventful-server.hostless.app/",
+        // target: "https://pen.hostless.app/",
+        target: "http://localhost:8000/",
         changeOrigin: true,
-        secure: false,
-        agent: new http.Agent(),
+        // secure: false,
+        // agent: new http.Agent(),
         rewrite: (path) => path.replace(/^\/proxy/, '')
       },
     },

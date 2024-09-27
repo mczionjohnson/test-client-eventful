@@ -7,13 +7,13 @@ import "../App.css";
 
 
 // dynamic funtions
-function Events() {
+function Blogs() {
   //  declare navigate function
   const navigate = useNavigate();
 
 
   // creating an array to store data
-  const [events, setEvents] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [meta, setMeta] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,9 +29,9 @@ function Events() {
   // getting data from backend with axios
   useEffect(() => {
     axios
-      .get("proxy/api/v1/events")
+      .get("proxy/api/v1/blogs")
       .then((res) => {
-        setEvents(res.data.data);
+        setBlogs(res.data.data);
         setMeta(res.data.meta);
         setIsLoading(false);
       })
@@ -68,9 +68,9 @@ function Events() {
     const value = post.value;
 
     await axios
-      .get(`proxy/api/v1/events?q=${value}`)
+      .get(`proxy/api/v1/blogs?q=${value}`)
       .then((res) => {
-        setEvents(res.data.data);
+        setBlogs(res.data.data);
         setMeta(res.data.meta);
         setIsLoading(false);
       })
@@ -88,7 +88,7 @@ function Events() {
       .get(`proxy/api/v1/events?page=${page}`)
       .then((res) => {
         // console.log(res.data.data);
-        setEvents(res.data.data);
+        setBlogs(res.data.data);
         setMeta(res.data.meta);
         setIsLoading(false);
       })
@@ -105,7 +105,7 @@ function Events() {
       .get(`proxy/api/v1/events?page=${page}`)
       .then((res) => {
         // console.log(res.data.data);
-        setEvents(res.data.data);
+        setBlogs(res.data.data);
         setMeta(res.data.meta);
         setIsLoading(false);
       })
@@ -143,7 +143,7 @@ function Events() {
     return <div>Error: {error}</div>; // Display the error message
   }
   if (isLoading) {
-    return <div>Loading events...</div>;
+    return <div>Loading blogs...</div>;
   }
   
   return (
@@ -168,7 +168,7 @@ function Events() {
             <Form.Control
               name="value"
               value={post.value}
-              placeholder="search events by title || tags || host"
+              placeholder="search events by title || author || tags"
               onChange={handleChange}
             />
           </div>
@@ -178,22 +178,22 @@ function Events() {
           className="buttonSuccess"
           onClick={search}
         >
-          SEARCH EVENT
+          search Blogs
         </Button>
       </Form>
-      <h1> Events</h1>
+      <h1> Blogs</h1>
 
       <div>
-        {events
-          ? events.map((event) => (
+        {blogs
+          ? blogs.map((blog) => (
               // present the unique key for each child in the div
-              <div key={event._id} className="mappedPost">
-                <h4>{event.title}</h4>
-                <p>{event.description}</p>
+              <div key={blog._id} className="mappedPost">
+                <h4>{blog.title}</h4>
+                <p>{blog.description}</p>
                 <Button
                   variant="outline-success"
                   className="buttonNav"
-                  onClick={() => viewEvent(event._id)}
+                  onClick={() => viewEvent(blog._id)}
                 >
                   VIEW
                 </Button>
@@ -244,4 +244,4 @@ function Events() {
   );
 }
 
-export default Events;
+export default Blogs;

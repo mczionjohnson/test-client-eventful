@@ -13,7 +13,7 @@ import { ErrorPage } from "./ErrorPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
-import Event from "./pages/Event";
+import Blogs from "./pages/Blogs";
 import CreateEvent from "./pages/CreateEvent";
 import SingleEvent from "./pages/SingleEvent";
 
@@ -45,8 +45,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/events",
-    element: <Event />,
+    path: "/blogs",
+    element: <Blogs />,
     errorElement: <ErrorPage />,
   },
   {
