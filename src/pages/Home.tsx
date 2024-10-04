@@ -13,7 +13,6 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [error, setError] = useState("");
-  const [errorCode, setErrorCode] = useState("");
 
   // getting data from backend when this page is loaded
   // getting data from backend with axios
@@ -26,39 +25,22 @@ function Home() {
       })
       .catch((err) => {
         console.error("Error fetching events:", err);
-        setErrorCode(err.response.status);
         setError(err.message);
       });
   }, []);
 
-  if (errorCode == "401") {
-    return (
-      <div>
-        <h4>Please Log in</h4>
-        <>
-          <Button
-            variant="outline-info"
-            className="buttonNav"
-            onClick={() => navigate("/")}
-          >
-            HOME
-          </Button>
-        </>
-      </div>
-    ); // Display the error message
-  }
   if (error) {
     return <div>Error: {error}</div>; // Display the error message
   }
   if (isLoading) {
-    return <div>Loading events...</div>;
+    return <div>Loading whistles...</div>;
   }
 
   return (
     <div className="Home">
 
         {home ? (
-          <div key={home} className="mappedPost">
+          <div className="mappedPost">
             <h1>{home}</h1>
                 <Button
                   variant="outline-success"

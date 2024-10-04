@@ -7,13 +7,13 @@ import Modal from "react-bootstrap/Modal";
 import "../App.css";
 
 // dynamic funtions
-function SingleEvent() {
+function SingleWhistle() {
   //  declare navigate function
   const navigate = useNavigate();
   const location = useLocation();
 
   // creating an array to store data
-  const [event, setEvent] = useState([]);
+  const [whistle, setWhistle] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [error, setError] = useState("");
@@ -29,39 +29,31 @@ function SingleEvent() {
   // getting data from backend with axios
 
   useEffect(() => {
-
     const id = location.state; // Read values passed on state
     axios
-      .get(`proxy/api/v1/events/${id}`)
+      .get(`proxy/api/v1/whistles/${id}`)
       .then((res) => {
-        setEvent(res.data.Event);
+        setWhistle(res.data.singleWhistle);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching event:", err);
+        console.error("Error fetching whistle:", err);
         setErrorCode(err.response.status);
         setError(err.message);
       });
   }, [location.state]);
 
-  const buyTicket = (event_id: string) => {
-    const id = event_id;
-    // console.log(id);
-
-    navigate("/attend", { state: id });
-  };
-
   const share = (_id) => {
     const id = _id;
 
     axios
-      .get(`proxy/api/v1/events/${id}/share`)
+      .get(`proxy/api/v1/whistles/${id}/share`)
       .then((res) => {
         setShareLink(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching events:", err);
+        console.error("Error fetching whistle:", err);
         setErrorCode(err.response.status);
         setError(err.message);
       });
@@ -71,11 +63,10 @@ function SingleEvent() {
   };
 
   const link = (link) => {
-    const fullLink = link
+    const fullLink = link;
 
     window.open(fullLink, "_blank", "noreferrer");
   };
-
 
   if (errorCode == "401") {
     return (
@@ -85,19 +76,28 @@ function SingleEvent() {
           <Button
             variant="outline-info"
             className="buttonNav"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/login")}
           >
-            HOME
+            Login
+          </Button>
+          <Button
+            variant="outline-info"
+            className="buttonNav"
+            onClick={() => navigate("/register")}
+          >
+            Register
           </Button>
         </>
       </div>
     ); // Display the error message
   }
+
   if (error) {
     return <div>Error: {error}</div>; // Display the error message
   }
+
   if (isLoading) {
-    return <div>Loading events...</div>;
+    return <div>Loading whistles...</div>;
   }
 
   return (
@@ -107,28 +107,28 @@ function SingleEvent() {
         className="buttonNav"
         onClick={() => navigate("/")}
       >
-        HOME
+        Home
       </Button>
       <Button
         variant="outline-primary"
         className="buttonNav"
         onClick={() => navigate("/profile")}
       >
-        PROFILE
+        profile
       </Button>
       <Button
         variant="outline-primary"
         className="buttonNav"
-        onClick={() => navigate("/events")}
+        onClick={() => navigate("/whistles")}
       >
-        ALL EVENTS
+        Whistles for you
       </Button>
-      <h1>VIEWING AN EVENTS</h1>
+      <h1>whistle</h1>
 
       {/* modal lines are copied from react-bootstrap */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Share an event</Modal.Title>
+          <Modal.Title>Share a whistle</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {shareLink ? (
@@ -169,23 +169,17 @@ function SingleEvent() {
       {/*  */}
 
       <div>
-        {event ? (
-          <div key={event._id} className="mappedPost">
-            <h4>{event.title}</h4>
-            <p>{event.description}</p>
-            <Button
-              variant="outline-success"
-              className="buttonSuccess"
-              onClick={() => buyTicket(event._id)}
-            >
-              GET TICKET
-            </Button>
+        {whistle ? (
+          <div key={whistle._id} className="mappedPost">
+            <h4>{whistle.body}</h4>
+            <p>read by {whistle.readCount}</p>
+            <p>{whistle.readingTime}</p>
             <Button
               variant="outline-warning"
               className="buttonSuccess"
-              onClick={() => share(event._id)}
+              onClick={() => share(whistle._id)}
             >
-              SHARE ON SOCIAL
+              share on social
             </Button>
           </div>
         ) : (
@@ -197,10 +191,10 @@ function SingleEvent() {
         className="buttonNav"
         onClick={() => navigate(-1)}
       >
-        BACK
+        back
       </Button>
     </div>
   );
 }
 
-export default SingleEvent;
+export default SingleWhistle;

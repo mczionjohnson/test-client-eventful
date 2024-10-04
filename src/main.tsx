@@ -13,9 +13,9 @@ import { ErrorPage } from "./ErrorPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
-import Blogs from "./pages/Blogs";
+import Whistles from "./pages/Whistles";
 import CreateEvent from "./pages/CreateEvent";
-import SingleEvent from "./pages/SingleEvent";
+import SingleWhistle from "./pages/SingleWhistle";
 
 import Ticketing from "./pages/Ticketing";
 import UserTickets from "./pages/UserTickets";
@@ -45,13 +45,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/blogs",
-    element: <Blogs />,
+    path: "/whistles",
+    element: <Whistles />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/one_event",
-    element: <SingleEvent />,
+    path: "/one_whistle",
+    element: <SingleWhistle />,
     errorElement: <ErrorPage />,
   },
   {

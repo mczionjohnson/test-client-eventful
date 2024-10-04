@@ -5,16 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 import "../App.css";
 
-
 // dynamic funtions
-function Blogs() {
+function Whistles() {
   //  declare navigate function
   const navigate = useNavigate();
 
-
   // creating an array to store data
   const [blogs, setBlogs] = useState([]);
-  const [meta, setMeta] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [error, setError] = useState("");
@@ -29,10 +26,9 @@ function Blogs() {
   // getting data from backend with axios
   useEffect(() => {
     axios
-      .get("proxy/api/v1/blogs")
+      .get("proxy/api/v1/whistles")
       .then((res) => {
         setBlogs(res.data.data);
-        setMeta(res.data.meta);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -68,45 +64,9 @@ function Blogs() {
     const value = post.value;
 
     await axios
-      .get(`proxy/api/v1/blogs?q=${value}`)
+      .get(`proxy/api/v1/whistles?q=${value}`)
       .then((res) => {
         setBlogs(res.data.data);
-        setMeta(res.data.meta);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching events:", err);
-        setErrorCode(err.response.status);
-        setError(err.message);
-      });
-  };
-  const incPage = () => {
-    const current = Number(`${meta.page}`);
-    const page = current + 1;
-
-    axios
-      .get(`proxy/api/v1/events?page=${page}`)
-      .then((res) => {
-        // console.log(res.data.data);
-        setBlogs(res.data.data);
-        setMeta(res.data.meta);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching events:", err);
-        setErrorCode(err.response.status);
-        setError(err.message);
-      });
-  };
-  const decPage = () => {
-    const current = Number(`${meta.page}`);
-    const page = current - 1;
-    axios
-      .get(`proxy/api/v1/events?page=${page}`)
-      .then((res) => {
-        // console.log(res.data.data);
-        setBlogs(res.data.data);
-        setMeta(res.data.meta);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -116,11 +76,11 @@ function Blogs() {
       });
   };
 
-  const viewEvent = (event_id: string) => {
-    const id = event_id;
+  const viewEvent = (whistle_id: string) => {
+    const id = whistle_id;
     // console.log(id);
 
-    navigate("/one_event", { state: id });
+    navigate("/one_whistle", { state: id });
   };
 
   if (errorCode == "401") {
@@ -131,21 +91,30 @@ function Blogs() {
           <Button
             variant="outline-info"
             className="buttonNav"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/login")}
           >
-            HOME
+            Login
+          </Button>
+          <Button
+            variant="outline-info"
+            className="buttonNav"
+            onClick={() => navigate("/register")}
+          >
+            Register
           </Button>
         </>
       </div>
     ); // Display the error message
   }
+
   if (error) {
     return <div>Error: {error}</div>; // Display the error message
   }
+
   if (isLoading) {
-    return <div>Loading blogs...</div>;
+    return <div>Loading whistles...</div>;
   }
-  
+
   return (
     <div className="post-header">
       <Button
@@ -168,7 +137,7 @@ function Blogs() {
             <Form.Control
               name="value"
               value={post.value}
-              placeholder="search events by title || author || tags"
+              placeholder="🔎 Search"
               onChange={handleChange}
             />
           </div>
@@ -178,70 +147,40 @@ function Blogs() {
           className="buttonSuccess"
           onClick={search}
         >
-          search Blogs
+           🔎 whistles
         </Button>
       </Form>
-      <h1> Blogs</h1>
-
-      <div>
-        {blogs
-          ? blogs.map((blog) => (
-              // present the unique key for each child in the div
-              <div key={blog._id} className="mappedPost">
-                <h4>{blog.title}</h4>
-                <p>{blog.description}</p>
-                <Button
-                  variant="outline-success"
-                  className="buttonNav"
-                  onClick={() => viewEvent(blog._id)}
-                >
-                  VIEW
-                </Button>
-              </div>
-            ))
-          : ""}
-      </div>
-
-      <div>{meta != null ? <p>Page: {meta.page}</p> : ""}</div>
-
-      {meta && meta.page && meta.page ? (
-        <>
-          <Button
-            variant="outline-success"
-            className="buttonNav"
-            onClick={() => incPage()}
-          >
-            NEXT
-          </Button>
-        </>
-      ) : (
-        ""
-      )}
-
-      {meta && meta.page && meta.page > 1 ? (
-        <>
-          <Button
-            variant="outline-dark"
-            className="buttonNav"
-            onClick={() => decPage()}
-          >
-            BACK
-          </Button>
-        </>
-      ) : (
-        ""
-      )}
       <>
         <Button
           variant="outline-success"
           className="buttonNav"
           onClick={() => navigate("/create")}
         >
-          CREATE EVENT
+          make a whistle
         </Button>
       </>
+      <h1> whistles for you</h1>
+
+      <div>
+        {blogs
+          ? blogs.map((blog) => (
+              // present the unique key for each child in the div
+              <div key={blog._id} className="mappedPost">
+                <h4>{blog.body}</h4>
+                <p>{blog.readCount}</p>
+                <Button
+                  variant="outline-success"
+                  className="buttonNav"
+                  onClick={() => viewEvent(blog._id)}
+                >
+                  open
+                </Button>
+              </div>
+            ))
+          : ""}
+      </div>
     </div>
   );
 }
 
-export default Blogs;
+export default Whistles;
